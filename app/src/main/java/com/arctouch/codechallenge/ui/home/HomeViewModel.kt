@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.home
+package com.arctouch.codechallenge.ui.home
 
 import android.arch.lifecycle.ViewModel
 import com.arctouch.codechallenge.api.TmdbApi

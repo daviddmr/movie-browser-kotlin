@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.home
+package com.arctouch.codechallenge.ui.home
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -7,11 +7,11 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
 import com.arctouch.codechallenge.R
-import com.arctouch.codechallenge.base.BaseActivity
 import com.arctouch.codechallenge.databinding.HomeActivityBinding
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -23,7 +23,6 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
-        setContentView(R.layout.home_activity)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
 

@@ -44,6 +44,9 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
     kapt "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
 
+    // Android data binding
+    kapt "com.android.databinding:compiler:$rootProject.ext.databindingCompilerVersion"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofitVersion"

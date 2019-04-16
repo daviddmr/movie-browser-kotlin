@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
 
         <activity android:name=".ui.movieDetail.MovieDetailActivity" />
 
