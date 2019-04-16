@@ -7,6 +7,7 @@ import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.base.BaseActivity
 import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.home.HomeActivity
+import com.arctouch.codechallenge.ui.movieDetail.MovieDetailActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -21,7 +22,7 @@ class SplashActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 Cache.cacheGenres(it.genres)
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, MovieDetailActivity::class.java))
                 finish()
             }
     }

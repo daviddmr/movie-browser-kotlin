@@ -27,6 +27,8 @@
 
         <activity android:name=".home.HomeActivity" />
 
+        <activity android:name=".ui.movieDetail.MovieDetailActivity" />
+
     </application>
 
 </manifest>
