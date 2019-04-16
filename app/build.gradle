@@ -24,6 +24,9 @@ android {
             buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -35,6 +38,11 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.supportConstraintLayoutVersion"
+
+    // Android architecture components
+    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
