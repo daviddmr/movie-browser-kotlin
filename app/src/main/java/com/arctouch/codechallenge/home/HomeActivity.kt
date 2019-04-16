@@ -1,30 +1,28 @@
 package com.arctouch.codechallenge.home
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.View
 import com.arctouch.codechallenge.R
-import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.base.BaseActivity
-import com.arctouch.codechallenge.data.Cache
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.home_activity.*
+import com.arctouch.codechallenge.databinding.HomeActivityBinding
+import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var viewModel: HomeViewModel
+
+    private lateinit var binding: HomeActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         setContentView(R.layout.home_activity)
-
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1, TmdbApi.DEFAULT_REGION)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val moviesWithGenres = it.results.map { movie ->
-                    movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
-                }
-                recyclerView.adapter = HomeAdapter(moviesWithGenres)
-                progressBar.visibility = View.GONE
-            }
+        binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
+        binding.viewModel = viewModel
     }
 }
