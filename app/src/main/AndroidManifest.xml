@@ -27,7 +27,9 @@
 
         <activity android:name=".ui.home.HomeActivity" />
 
-        <activity android:name=".ui.movieDetail.MovieDetailActivity" />
+        <activity
+            android:name=".ui.movieDetail.MovieDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
