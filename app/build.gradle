@@ -51,6 +51,10 @@ dependencies {
     // Android data binding
     kapt "com.android.databinding:compiler:$rootProject.ext.databindingCompilerVersion"
 
+    // Binding collection adapter
+    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
+    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofitVersion"
