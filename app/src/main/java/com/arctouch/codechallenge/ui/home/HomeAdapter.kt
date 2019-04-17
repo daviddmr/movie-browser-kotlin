@@ -15,8 +15,6 @@ class HomeAdapter(private val movies: List<Movie>, private val onClickListener: 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val movieImageUrlBuilder = MovieImageUrlBuilder()
-
         fun bind(movie: Movie, onClickListener: View.OnClickListener) {
             itemView.main_layout.setOnClickListener(onClickListener)
             itemView.main_layout.tag = adapterPosition
@@ -25,7 +23,7 @@ class HomeAdapter(private val movies: List<Movie>, private val onClickListener: 
             itemView.releaseDateTextView.text = movie.releaseDate
 
             Glide.with(itemView)
-                    .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
+                    .load(movie.posterPath?.let { MovieImageUrlBuilder.buildPosterUrl(it) })
                     .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                     .into(itemView.posterImageView)
         }
