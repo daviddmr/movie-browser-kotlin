@@ -57,6 +57,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         val closeButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
         closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))
         searchItem.setOnActionExpandListener(onSearchViewCollapseListener())
+        searchView.maxWidth = Integer.MAX_VALUE
 
         return true
     }
