@@ -47,7 +47,7 @@ class HomeActivity : DaggerAppCompatActivity() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val mLinearLayoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-                if (viewModel.moviesWithGenres.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                if (viewModel.upcomingMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
                     if (!viewModel.isLastPage.get() && !viewModel.loadingMovies.get()) {
                         viewModel.loadingMovies.set(true)
                         viewModel.findUpcomingMovies(viewModel.currentPage)

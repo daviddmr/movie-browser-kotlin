@@ -26,6 +26,12 @@ interface TmdbApi {
             @Query("page") page: Long
     ): Observable<UpcomingMoviesResponse>
 
+    @GET("search/movie")
+    fun findMoviesByText(
+            @Query("query") query: String,
+            @Query("page") page: Long
+    ): Observable<UpcomingMoviesResponse>
+
     @GET("movie/{id}")
     fun movie(
             @Path("id") id: Long

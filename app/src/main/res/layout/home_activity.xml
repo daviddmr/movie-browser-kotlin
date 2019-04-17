@@ -22,15 +22,15 @@
             android:clipToPadding="false"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            app:itemBinding="@{viewModel.moviesWithGenresBinding}"
-            app:items="@{viewModel.moviesWithGenres}"
+            app:itemBinding="@{viewModel.moviesBinding}"
+            app:items="@{viewModel.upcomingMovies}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{viewModel.moviesWithGenres.size > 0 ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{viewModel.upcomingMovies.size > 0 ? View.GONE : View.VISIBLE}" />
 
     </RelativeLayout>
 </layout>

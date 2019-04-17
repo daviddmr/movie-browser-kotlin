@@ -3,6 +3,7 @@ package com.arctouch.codechallenge.ui.home
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableField
 import android.databinding.ObservableList
 import com.arctouch.codechallenge.BR
 import com.arctouch.codechallenge.R
@@ -23,12 +24,13 @@ constructor(
 ) : ViewModel(), MovieAdapterOnItemClickListener {
 
     //Binds for view components
-    val moviesWithGenres: ObservableList<Movie> = ObservableArrayList()
-    val moviesWithGenresBinding: ItemBinding<Movie> = ItemBinding
+    val upcomingMovies: ObservableList<Movie> = ObservableArrayList()
+    val moviesBinding: ItemBinding<Movie> = ItemBinding
             .of<Movie>(BR.movie, R.layout.movie_item)
             .bindExtra(BR.listener, this)
 
     val topRatedMovies: ObservableList<Movie> = ObservableArrayList()
+    val moviesQueried: ObservableList<Movie> = ObservableArrayList()
 
     //Events
     val openMovieDetailActEvent = SingleLiveEvent<Movie>()
@@ -36,6 +38,9 @@ constructor(
     //Actions
     var loadingMovies = ObservableBoolean()
     var isLastPage = ObservableBoolean()
+
+    //Observables
+    val textToQueryMovie = ObservableField<String>("")
 
     //Local
     var currentPage: Long = 1L
@@ -65,7 +70,7 @@ constructor(
                         isLastPage.set(true)
                     }
                     loadingMovies.set(false)
-                    moviesWithGenres.addAll(it.results.map { movie ->
+                    upcomingMovies.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })
                 }
@@ -81,6 +86,21 @@ constructor(
                     }
                     loadingMovies.set(false)
                     topRatedMovies.addAll(it.results.map { movie ->
+                        movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
+                    })
+                }
+    }
+
+    fun findMoviesByText(query:String, page: Long) {
+        tmdbApi.findMoviesByText(query, page)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe {
+                    if (it.page < it.totalPages) {
+                        currentPage++
+                    }
+                    loadingMovies.set(false)
+                    moviesQueried.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })
                 }
