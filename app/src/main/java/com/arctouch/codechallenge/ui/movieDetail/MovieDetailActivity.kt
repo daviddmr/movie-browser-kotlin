@@ -16,6 +16,7 @@ class MovieDetailActivity : DaggerAppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MovieDetailViewModel
     private lateinit var binding: MovieDetailActivityBinding
+    lateinit var movie: Movie
 
     companion object {
         const val ARG_MOVIE = "arg_movie"
@@ -28,13 +29,17 @@ class MovieDetailActivity : DaggerAppCompatActivity() {
         binding.viewModel = viewModel
 
         intent?.let {
-            val movie = intent.getParcelableExtra<Movie>(ARG_MOVIE)
+            movie = intent.getParcelableExtra(ARG_MOVIE)
+            binding.movie = movie
         }
 
-        subscriber()
+        setupActionbar()
     }
 
-    private fun subscriber() {
-
+    private fun setupActionbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 }
