@@ -2,12 +2,16 @@ package com.arctouch.codechallenge.ui.home
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
+import android.databinding.ObservableList
+import com.arctouch.codechallenge.BR
+import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.injection.module.RetrofitModule
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.util.SingleLiveEvent
 import com.arctouch.codechallenge.util.schedulers.BaseScheduler
+import me.tatarka.bindingcollectionadapter2.ItemBinding
 import javax.inject.Inject
 
 class HomeViewModel
@@ -15,12 +19,17 @@ class HomeViewModel
 constructor(
         private val scheduler: BaseScheduler,
         private val tmdbApi: TmdbApi
-) : ViewModel() {
+) : ViewModel(), MovieAdapterOnItemClickListener {
+
+    //Binds for view components
+    val moviesWithGenres: ObservableList<Movie> = ObservableArrayList()
+    val moviesWithGenresBinding: ItemBinding<Movie> = ItemBinding
+            .of<Movie>(BR.movie, R.layout.movie_item)
+            .bindExtra(BR.listener, this)
 
     //Events
-    val updateHomeListEvent = SingleLiveEvent<Unit>()
+    val openMovieDetailActEvent = SingleLiveEvent<Movie>()
 
-    val moviesWithGenres = ObservableArrayList<Movie>()
     val topRatedMovies = ObservableArrayList<Movie>()
     var currentPage: Long = 1L
 
@@ -47,7 +56,6 @@ constructor(
                     moviesWithGenres.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })
-                    updateHomeListEvent.call()
                 }
     }
 
@@ -59,7 +67,14 @@ constructor(
                     topRatedMovies.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })
-                    updateHomeListEvent.call()
                 }
     }
+
+    override fun openMovieDetailAct(movie: Movie) {
+        openMovieDetailActEvent.value = movie
+    }
+}
+
+interface MovieAdapterOnItemClickListener {
+    fun openMovieDetailAct(movie: Movie)
 }

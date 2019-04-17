@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -22,9 +23,9 @@
             android:clipToPadding="false"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:itemCount="10"
-            tools:listitem="@layout/movie_item" />
+            app:itemBinding="@{viewModel.moviesWithGenresBinding}"
+            app:items="@{viewModel.moviesWithGenres}"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -34,18 +34,10 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscriber() {
-        viewModel.updateHomeListEvent.observe(this, Observer {
-            binding.recyclerView.adapter = HomeAdapter(viewModel.moviesWithGenres, onMovieClickListener())
+        viewModel.openMovieDetailActEvent.observe(this, Observer { movie ->
             binding.progressBar.visibility = View.GONE
+            movie?.let { openMovieDetailAct(it) }
         })
-    }
-
-    private fun onMovieClickListener(): View.OnClickListener {
-        return View.OnClickListener { v ->
-            val position: Int = v.tag as Int
-            val movie = viewModel.moviesWithGenres[position]
-            openMovieDetailAct(movie)
-        }
     }
 
     private fun openMovieDetailAct(movie: Movie) {
