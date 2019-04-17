@@ -35,4 +35,8 @@ data class Movie(
     fun getPosterUrl(): String? {
         return posterPath?.let { MovieImageUrlBuilder.buildPosterUrl(it) }
     }
+
+    fun getGenresNameFormatted(): String? {
+        return genres?.joinToString(separator = ", ") { it.name }
+    }
 }
