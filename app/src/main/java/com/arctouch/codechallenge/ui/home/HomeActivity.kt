@@ -8,6 +8,11 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.databinding.HomeActivityBinding
 import com.arctouch.codechallenge.model.Movie
@@ -30,7 +35,8 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
-        binding.recyclerView.addOnScrollListener(onScrollListener())
+        binding.rvUpcomingMovies.addOnScrollListener(onScrollUpcomingMoviesListener())
+        binding.rvQueriedMovies.addOnScrollListener(onScrollQueriedMoviesListener())
 
         subscriber()
     }
@@ -41,16 +47,84 @@ class HomeActivity : DaggerAppCompatActivity() {
         })
     }
 
-    private fun onScrollListener(): RecyclerView.OnScrollListener {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_movie_menu, menu)
+
+        val searchItem = menu.findItem(R.id.search_movie_menu_item_filter)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(onQueryTextListener())
+
+        val closeButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
+        closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))
+        searchItem.setOnActionExpandListener(onSearchViewCollapseListener())
+
+        return true
+    }
+
+    private fun onQueryTextListener(): SearchView.OnQueryTextListener {
+        return object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.isNotEmpty()) {
+                    viewModel.textToQueryMovie.set(query)
+                    viewModel.findMoviesByText(viewModel.currentPageQueriedMovies)
+                }
+                return false
+            }
+        }
+    }
+
+    private fun onSearchViewCollapseListener(): MenuItem.OnActionExpandListener {
+        return object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                viewModel.textToQueryMovie.set("")
+                viewModel.queriedMovies.clear()
+                return true
+            }
+        }
+    }
+
+    private fun onCloseButtonSearchViewListener(searchView: SearchView): View.OnClickListener {
+        return View.OnClickListener {
+            searchView.setQuery("", false)
+            viewModel.textToQueryMovie.set("")
+            viewModel.queriedMovies.clear()
+        }
+    }
+
+    private fun onScrollUpcomingMoviesListener(): RecyclerView.OnScrollListener {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val mLinearLayoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
+                val mLinearLayoutManager = binding.rvUpcomingMovies.layoutManager as LinearLayoutManager
                 if (viewModel.upcomingMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    if (!viewModel.isLastPage.get() && !viewModel.loadingMovies.get()) {
+                    if (!viewModel.isLastPageOfUpcomingMovies.get() && !viewModel.loadingMovies.get()) {
                         viewModel.loadingMovies.set(true)
-                        viewModel.findUpcomingMovies(viewModel.currentPage)
+                        viewModel.findUpcomingMovies(viewModel.currentPageUpcomingMovies)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onScrollQueriedMoviesListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val mLinearLayoutManager = binding.rvQueriedMovies.layoutManager as LinearLayoutManager
+                if (viewModel.queriedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                    if (!viewModel.isLastPageOfQueriedMovies.get() && !viewModel.loadingMovies.get()) {
+                        viewModel.loadingMovies.set(true)
+                        viewModel.findMoviesByText(viewModel.currentPageQueriedMovies)
                     }
                 }
             }

@@ -30,20 +30,22 @@ constructor(
             .bindExtra(BR.listener, this)
 
     val topRatedMovies: ObservableList<Movie> = ObservableArrayList()
-    val moviesQueried: ObservableList<Movie> = ObservableArrayList()
+    val queriedMovies: ObservableList<Movie> = ObservableArrayList()
 
     //Events
     val openMovieDetailActEvent = SingleLiveEvent<Movie>()
 
     //Actions
     var loadingMovies = ObservableBoolean()
-    var isLastPage = ObservableBoolean()
+    var isLastPageOfUpcomingMovies = ObservableBoolean()
+    var isLastPageOfQueriedMovies = ObservableBoolean()
 
     //Observables
-    val textToQueryMovie = ObservableField<String>("")
+    val textToQueryMovie = ObservableField<String>()
 
     //Local
-    var currentPage: Long = 1L
+    var currentPageUpcomingMovies: Long = 1L
+    var currentPageQueriedMovies: Long = 1L
 
     init {
         getGenres()
@@ -65,9 +67,9 @@ constructor(
                 .observeOn(scheduler.ui())
                 .subscribe {
                     if (it.page < it.totalPages) {
-                        currentPage++
+                        currentPageUpcomingMovies++
                     } else {
-                        isLastPage.set(true)
+                        isLastPageOfUpcomingMovies.set(true)
                     }
                     loadingMovies.set(false)
                     upcomingMovies.addAll(it.results.map { movie ->
@@ -82,7 +84,7 @@ constructor(
                 .observeOn(scheduler.ui())
                 .subscribe {
                     if (it.page < it.totalPages) {
-                        currentPage++
+                        currentPageUpcomingMovies++
                     }
                     loadingMovies.set(false)
                     topRatedMovies.addAll(it.results.map { movie ->
@@ -91,19 +93,23 @@ constructor(
                 }
     }
 
-    fun findMoviesByText(query:String, page: Long) {
-        tmdbApi.findMoviesByText(query, page)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe {
-                    if (it.page < it.totalPages) {
-                        currentPage++
+    fun findMoviesByText(page: Long) {
+        textToQueryMovie.get()?.let { query ->
+            tmdbApi.findMoviesByText(query, page)
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
+                    .subscribe {
+                        if (it.page < it.totalPages) {
+                            currentPageQueriedMovies++
+                        } else {
+                            isLastPageOfQueriedMovies.set(true)
+                        }
+                        loadingMovies.set(false)
+                        queriedMovies.addAll(it.results.map { movie ->
+                            movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
+                        })
                     }
-                    loadingMovies.set(false)
-                    moviesQueried.addAll(it.results.map { movie ->
-                        movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
-                    })
-                }
+        }
     }
 
     override fun openMovieDetailAct(movie: Movie) {
