@@ -2,6 +2,7 @@ package com.arctouch.codechallenge.ui.home
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableList
 import com.arctouch.codechallenge.BR
 import com.arctouch.codechallenge.R
@@ -27,10 +28,16 @@ constructor(
             .of<Movie>(BR.movie, R.layout.movie_item)
             .bindExtra(BR.listener, this)
 
+    val topRatedMovies: ObservableList<Movie> = ObservableArrayList()
+
     //Events
     val openMovieDetailActEvent = SingleLiveEvent<Movie>()
 
-    val topRatedMovies = ObservableArrayList<Movie>()
+    //Actions
+    var loadingMovies = ObservableBoolean()
+    var isLastPage = ObservableBoolean()
+
+    //Local
     var currentPage: Long = 1L
 
     init {
@@ -44,26 +51,35 @@ constructor(
                 .subscribe {
                     Cache.cacheGenres(it.genres)
                     findUpcomingMovies(1)
-                    findTopRatedMovies(1)
                 }
     }
 
-    private fun findUpcomingMovies(page: Long) {
+    fun findUpcomingMovies(page: Long) {
         tmdbApi.upcomingMovies(page)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe {
+                    if (it.page < it.totalPages) {
+                        currentPage++
+                    } else {
+                        isLastPage.set(true)
+                    }
+                    loadingMovies.set(false)
                     moviesWithGenres.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })
                 }
     }
 
-    private fun findTopRatedMovies(page: Long) {
+    fun findTopRatedMovies(page: Long) {
         tmdbApi.topRatedMovies(page)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe {
+                    if (it.page < it.totalPages) {
+                        currentPage++
+                    }
+                    loadingMovies.set(false)
                     topRatedMovies.addAll(it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     })

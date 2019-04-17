@@ -6,7 +6,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.View
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.databinding.HomeActivityBinding
 import com.arctouch.codechallenge.model.Movie
@@ -29,15 +30,31 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
+        binding.recyclerView.addOnScrollListener(onScrollListener())
 
         subscriber()
     }
 
     private fun subscriber() {
         viewModel.openMovieDetailActEvent.observe(this, Observer { movie ->
-            binding.progressBar.visibility = View.GONE
             movie?.let { openMovieDetailAct(it) }
         })
+    }
+
+    private fun onScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val mLinearLayoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
+                if (viewModel.moviesWithGenres.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                    if (!viewModel.isLastPage.get() && !viewModel.loadingMovies.get()) {
+                        viewModel.loadingMovies.set(true)
+                        viewModel.findUpcomingMovies(viewModel.currentPage)
+                    }
+                }
+            }
+        }
     }
 
     private fun openMovieDetailAct(movie: Movie) {
