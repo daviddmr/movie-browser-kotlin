@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.model
 
 import android.os.Parcelable
+import com.arctouch.codechallenge.util.MovieImageUrlBuilder
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
@@ -25,4 +26,13 @@ data class Movie(
         @Json(name = "genre_ids") val genreIds: List<Int>?,
         @Json(name = "poster_path") val posterPath: String?,
         @Json(name = "backdrop_path") val backdropPath: String?,
-        @Json(name = "release_date") val releaseDate: String?) : Parcelable
+        @Json(name = "release_date") val releaseDate: String?) : Parcelable {
+
+    fun getBackDropUrl(): String? {
+        return backdropPath?.let { MovieImageUrlBuilder.buildBackdropUrl(it) }
+    }
+
+    fun getPosterUrl(): String? {
+        return posterPath?.let { MovieImageUrlBuilder.buildPosterUrl(it) }
+    }
+}
