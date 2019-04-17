@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="toolbar_title_expanded_size">28sp</dimen>
+    <dimen name="app_bar_layout_height">280dp</dimen>
+</resources>
