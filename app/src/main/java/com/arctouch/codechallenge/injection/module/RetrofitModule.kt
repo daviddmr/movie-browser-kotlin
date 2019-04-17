@@ -2,6 +2,7 @@ package com.arctouch.codechallenge.injection.module
 
 import com.arctouch.codechallenge.BuildConfig
 import com.arctouch.codechallenge.api.TmdbApi
+import com.arctouch.codechallenge.api.interceptor.DefaultRequestInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -32,6 +33,7 @@ class RetrofitModule {
     init {
         logging.level = HttpLoggingInterceptor.Level.BODY
         httpClient.addInterceptor(logging)
+        httpClient.addInterceptor(DefaultRequestInterceptor())
     }
 
     @Provides
