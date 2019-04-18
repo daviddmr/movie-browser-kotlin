@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewModel"
-            type="com.arctouch.codechallenge.ui.movieDetail.MovieDetailViewModel" />
-
-        <variable
             name="movie"
             type="com.arctouch.codechallenge.model.Movie" />
     </data>
