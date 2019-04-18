@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{viewModel.upcomingMovies.size > 0 ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{viewModel.loadingMovies ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>
