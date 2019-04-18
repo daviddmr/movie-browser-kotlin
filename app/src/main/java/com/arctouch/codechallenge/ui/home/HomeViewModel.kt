@@ -39,6 +39,7 @@ constructor(
     var loadingMovies = ObservableBoolean()
     var isLastPageOfUpcomingMovies = ObservableBoolean()
     var isLastPageOfQueriedMovies = ObservableBoolean()
+    var isSearchViewExpanded = ObservableBoolean()
 
     //Observables
     val textToQueryMovie = ObservableField<String>()

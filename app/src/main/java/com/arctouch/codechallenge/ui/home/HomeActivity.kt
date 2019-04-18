@@ -59,6 +59,11 @@ class HomeActivity : DaggerAppCompatActivity() {
         searchItem.setOnActionExpandListener(onSearchViewCollapseListener())
         searchView.maxWidth = Integer.MAX_VALUE
 
+        if(viewModel.isSearchViewExpanded.get()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.textToQueryMovie.get(), false)
+        }
+
         return true
     }
 
@@ -81,10 +86,12 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun onSearchViewCollapseListener(): MenuItem.OnActionExpandListener {
         return object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                viewModel.isSearchViewExpanded.set(true)
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                viewModel.isSearchViewExpanded.set(false)
                 viewModel.textToQueryMovie.set("")
                 viewModel.queriedMovies.clear()
                 return true
