@@ -28,7 +28,7 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_upcoming_movies"
+            android:id="@+id/rv_top_rated_movies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -36,7 +36,7 @@
             android:paddingBottom="12dp"
             android:visibility="@{viewModel.queriedMovies.size > 0 ? View.GONE : View.VISIBLE}"
             app:itemBinding="@{viewModel.moviesBinding}"
-            app:items="@{viewModel.upcomingMovies}"
+            app:items="@{viewModel.topRatedMovies}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ProgressBar

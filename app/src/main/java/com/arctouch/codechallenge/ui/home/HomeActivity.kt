@@ -35,7 +35,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
-        binding.rvUpcomingMovies.addOnScrollListener(onScrollUpcomingMoviesListener())
+        binding.rvTopRatedMovies.addOnScrollListener(onScrollTopRatedMoviesListener())
         binding.rvQueriedMovies.addOnScrollListener(onScrollQueriedMoviesListener())
 
         subscriber()
@@ -76,6 +76,7 @@ class HomeActivity : DaggerAppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.isNotEmpty()) {
                     viewModel.textToQueryMovie.set(query)
+                    viewModel.loadingMovies.set(true)
                     viewModel.findMoviesByText(viewModel.currentPageQueriedMovies)
                 }
                 return false
@@ -107,16 +108,16 @@ class HomeActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun onScrollUpcomingMoviesListener(): RecyclerView.OnScrollListener {
+    private fun onScrollTopRatedMoviesListener(): RecyclerView.OnScrollListener {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val mLinearLayoutManager = binding.rvUpcomingMovies.layoutManager as LinearLayoutManager
-                if (viewModel.upcomingMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    if (!viewModel.isLastPageOfUpcomingMovies.get() && !viewModel.loadingMovies.get()) {
+                val mLinearLayoutManager = binding.rvTopRatedMovies.layoutManager as LinearLayoutManager
+                if (viewModel.topRatedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                    if (!viewModel.isLastPageOfTopRatedMovies.get() && !viewModel.loadingMovies.get()) {
                         viewModel.loadingMovies.set(true)
-                        viewModel.findUpcomingMovies(viewModel.currentPageUpcomingMovies)
+                        viewModel.findTopRatedMovies(viewModel.currentPageTopRatedMovies)
                     }
                 }
             }

@@ -38,6 +38,7 @@ constructor(
     //Actions
     var loadingMovies = ObservableBoolean()
     var isLastPageOfUpcomingMovies = ObservableBoolean()
+    var isLastPageOfTopRatedMovies = ObservableBoolean()
     var isLastPageOfQueriedMovies = ObservableBoolean()
     var isSearchViewExpanded = ObservableBoolean()
 
@@ -46,6 +47,7 @@ constructor(
 
     //Local
     var currentPageUpcomingMovies: Long = 1L
+    var currentPageTopRatedMovies: Long = 1L
     var currentPageQueriedMovies: Long = 1L
 
     init {
@@ -58,7 +60,7 @@ constructor(
                 .observeOn(scheduler.ui())
                 .subscribe {
                     Cache.cacheGenres(it.genres)
-                    findUpcomingMovies(1)
+                    findTopRatedMovies(1)
                 }
     }
 
@@ -85,7 +87,9 @@ constructor(
                 .observeOn(scheduler.ui())
                 .subscribe {
                     if (it.page < it.totalPages) {
-                        currentPageUpcomingMovies++
+                        currentPageTopRatedMovies++
+                    } else {
+                        isLastPageOfTopRatedMovies.set(true)
                     }
                     loadingMovies.set(false)
                     topRatedMovies.addAll(it.results.map { movie ->
