@@ -35,6 +35,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
+
         binding.rvTopRatedMovies.addOnScrollListener(onScrollTopRatedMoviesListener())
         binding.rvQueriedMovies.addOnScrollListener(onScrollQueriedMoviesListener())
 
@@ -59,7 +60,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         searchItem.setOnActionExpandListener(onSearchViewCollapseListener())
         searchView.maxWidth = Integer.MAX_VALUE
 
-        if(viewModel.isSearchViewExpanded.get()) {
+        if (viewModel.isSearchViewExpanded.get()) {
             searchItem.expandActionView()
             searchView.setQuery(viewModel.textToQueryMovie.get(), false)
         }
@@ -67,6 +68,13 @@ class HomeActivity : DaggerAppCompatActivity() {
         return true
     }
 
+    private fun openMovieDetailAct(movie: Movie) {
+        val intent = Intent(this, MovieDetailActivity::class.java)
+        intent.putExtra(MovieDetailActivity.ARG_MOVIE, movie)
+        startActivity(intent)
+    }
+
+    //Listeners
     private fun onQueryTextListener(): SearchView.OnQueryTextListener {
         return object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
@@ -75,9 +83,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.isNotEmpty()) {
-                    viewModel.textToQueryMovie.set(query)
-                    viewModel.loadingMovies.set(true)
-                    viewModel.findMoviesByText(viewModel.currentPageQueriedMovies)
+                    viewModel.submitSearchQuery(query)
                 }
                 return false
             }
@@ -87,14 +93,12 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun onSearchViewCollapseListener(): MenuItem.OnActionExpandListener {
         return object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                viewModel.isSearchViewExpanded.set(true)
+                viewModel.updateSearchViewExpandedState(true)
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                viewModel.isSearchViewExpanded.set(false)
-                viewModel.textToQueryMovie.set("")
-                viewModel.queriedMovies.clear()
+                viewModel.updateSearchViewExpandedState(false)
                 return true
             }
         }
@@ -103,8 +107,7 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun onCloseButtonSearchViewListener(searchView: SearchView): View.OnClickListener {
         return View.OnClickListener {
             searchView.setQuery("", false)
-            viewModel.textToQueryMovie.set("")
-            viewModel.queriedMovies.clear()
+            viewModel.clearQueryTextAndQueriedMoviesList()
         }
     }
 
@@ -112,14 +115,8 @@ class HomeActivity : DaggerAppCompatActivity() {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 val mLinearLayoutManager = binding.rvTopRatedMovies.layoutManager as LinearLayoutManager
-                if (viewModel.topRatedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    if (!viewModel.isLastPageOfTopRatedMovies.get() && !viewModel.loadingMovies.get()) {
-                        viewModel.loadingMovies.set(true)
-                        viewModel.findTopRatedMovies(viewModel.currentPageTopRatedMovies)
-                    }
-                }
+                viewModel.checkIfListItIsOverAndFindTopRatedMovies(mLinearLayoutManager)
             }
         }
     }
@@ -128,21 +125,9 @@ class HomeActivity : DaggerAppCompatActivity() {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 val mLinearLayoutManager = binding.rvQueriedMovies.layoutManager as LinearLayoutManager
-                if (viewModel.queriedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    if (!viewModel.isLastPageOfQueriedMovies.get() && !viewModel.loadingMovies.get()) {
-                        viewModel.loadingMovies.set(true)
-                        viewModel.findMoviesByText(viewModel.currentPageQueriedMovies)
-                    }
-                }
+                viewModel.checkIfListItIsOverAndFindQueriedMovies(mLinearLayoutManager)
             }
         }
-    }
-
-    private fun openMovieDetailAct(movie: Movie) {
-        val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra(MovieDetailActivity.ARG_MOVIE, movie)
-        startActivity(intent)
     }
 }

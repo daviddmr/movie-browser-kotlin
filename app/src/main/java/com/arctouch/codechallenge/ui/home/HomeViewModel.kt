@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableList
+import android.support.v7.widget.LinearLayoutManager
 import com.arctouch.codechallenge.BR
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.api.TmdbApi
@@ -24,36 +25,37 @@ constructor(
 ) : ViewModel(), MovieAdapterOnItemClickListener {
 
     //Binds for view components
-    val upcomingMovies: ObservableList<Movie> = ObservableArrayList()
     val moviesBinding: ItemBinding<Movie> = ItemBinding
             .of<Movie>(BR.movie, R.layout.movie_item)
             .bindExtra(BR.listener, this)
 
     val topRatedMovies: ObservableList<Movie> = ObservableArrayList()
     val queriedMovies: ObservableList<Movie> = ObservableArrayList()
+    val upcomingMovies: ObservableList<Movie> = ObservableArrayList()
 
     //Events
     val openMovieDetailActEvent = SingleLiveEvent<Movie>()
 
     //Actions
-    var loadingMovies = ObservableBoolean()
-    var isLastPageOfUpcomingMovies = ObservableBoolean()
     var isLastPageOfTopRatedMovies = ObservableBoolean()
     var isLastPageOfQueriedMovies = ObservableBoolean()
+    var isLastPageOfUpcomingMovies = ObservableBoolean()
+    var loadingMovies = ObservableBoolean()
     var isSearchViewExpanded = ObservableBoolean()
 
     //Observables
     val textToQueryMovie = ObservableField<String>()
 
     //Local
-    var currentPageUpcomingMovies: Long = 1L
     var currentPageTopRatedMovies: Long = 1L
     var currentPageQueriedMovies: Long = 1L
+    var currentPageUpcomingMovies: Long = 1L
 
     init {
         getGenres()
     }
 
+    //Requests
     private fun getGenres() {
         tmdbApi.genres(RetrofitModule.API_KEY, RetrofitModule.DEFAULT_LANGUAGE)
                 .subscribeOn(scheduler.io())
@@ -64,7 +66,7 @@ constructor(
                 }
     }
 
-    fun findUpcomingMovies(page: Long) {
+    private fun findUpcomingMovies(page: Long) {
         tmdbApi.upcomingMovies(page)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
@@ -76,12 +78,12 @@ constructor(
                     }
                     loadingMovies.set(false)
                     upcomingMovies.addAll(it.results.map { movie ->
-                        movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
+                        movie.copy(genres = Cache.genres.filter { genre -> movie.genreIds?.contains(genre.id) == true })
                     })
                 }
     }
 
-    fun findTopRatedMovies(page: Long) {
+    private fun findTopRatedMovies(page: Long) {
         tmdbApi.topRatedMovies(page)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
@@ -93,12 +95,12 @@ constructor(
                     }
                     loadingMovies.set(false)
                     topRatedMovies.addAll(it.results.map { movie ->
-                        movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
+                        movie.copy(genres = Cache.genres.filter { genre -> movie.genreIds?.contains(genre.id) == true })
                     })
                 }
     }
 
-    fun findMoviesByText(page: Long) {
+    private fun findMoviesByText(page: Long) {
         textToQueryMovie.get()?.let { query ->
             tmdbApi.findMoviesByText(query, page)
                     .subscribeOn(scheduler.io())
@@ -111,12 +113,51 @@ constructor(
                         }
                         loadingMovies.set(false)
                         queriedMovies.addAll(it.results.map { movie ->
-                            movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
+                            movie.copy(genres = Cache.genres.filter { genre -> movie.genreIds?.contains(genre.id) == true })
                         })
                     }
         }
     }
 
+    //Public Functions
+    fun submitSearchQuery(query: String) {
+        textToQueryMovie.set(query)
+        loadingMovies.set(true)
+        findMoviesByText(currentPageQueriedMovies)
+    }
+
+    fun checkIfListItIsOverAndFindTopRatedMovies(mLinearLayoutManager: LinearLayoutManager) {
+        if (topRatedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+            if (!isLastPageOfTopRatedMovies.get() && !loadingMovies.get()) {
+                loadingMovies.set(true)
+                findTopRatedMovies(currentPageTopRatedMovies)
+            }
+        }
+    }
+
+    fun checkIfListItIsOverAndFindQueriedMovies(mLinearLayoutManager: LinearLayoutManager) {
+        if (queriedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+            if (!isLastPageOfQueriedMovies.get() && !loadingMovies.get()) {
+                loadingMovies.set(true)
+                findMoviesByText(currentPageQueriedMovies)
+            }
+        }
+    }
+
+    fun clearQueryTextAndQueriedMoviesList() {
+        textToQueryMovie.set("")
+        queriedMovies.clear()
+    }
+
+    fun updateSearchViewExpandedState(searchViewExpanded: Boolean) {
+        isSearchViewExpanded.set(false)
+        if (!searchViewExpanded) {
+            textToQueryMovie.set("")
+            queriedMovies.clear()
+        }
+    }
+
+    //Override functions
     override fun openMovieDetailAct(movie: Movie) {
         openMovieDetailActEvent.value = movie
     }
