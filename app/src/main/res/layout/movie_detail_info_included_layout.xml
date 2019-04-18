@@ -47,12 +47,9 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TextLabelInformationStyle"
                         android:layout_weight="1"
-                        android:text="@string/original_title"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                        android:text="@string/original_title" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -90,8 +87,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
                             android:drawableStart="@drawable/ic_star"
                             android:gravity="center_vertical"
                             android:text="@{movie.voteAverage.toString()}"
@@ -100,12 +95,9 @@
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TextLabelInformationStyle"
                         android:layout_weight="1"
-                        android:text="@string/genres"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                        android:text="@string/genres" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,12 +112,9 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextLabelInformationStyle"
                 android:layout_marginTop="12dp"
-                android:text="@string/overview"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:text="@string/overview" />
 
             <TextView
                 android:layout_width="wrap_content"
