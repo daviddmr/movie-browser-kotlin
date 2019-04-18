@@ -130,7 +130,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{movie.overview}" />
+                android:text='@{movie.overview.isEmpty() ? @string/not_registered : movie.overview}' />
 
         </LinearLayout>
 
