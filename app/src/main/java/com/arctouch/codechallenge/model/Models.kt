@@ -10,11 +10,11 @@ data class GenreResponse(val genres: List<Genre>)
 @Parcelize
 data class Genre(val id: Int, val name: String) : Parcelable
 
-data class UpcomingMoviesResponse(
-    val page: Int,
-    val results: List<Movie>,
-    @Json(name = "total_pages") val totalPages: Int,
-    @Json(name = "total_results") val totalResults: Int
+data class RequestMoviesResponse(
+        val page: Int,
+        val results: List<Movie>,
+        @Json(name = "total_pages") val totalPages: Int,
+        @Json(name = "total_results") val totalResults: Int
 )
 
 @Parcelize

@@ -12,7 +12,6 @@ import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.injection.module.RetrofitModule
 import com.arctouch.codechallenge.model.Movie
-import com.arctouch.codechallenge.model.UpcomingMoviesResponse
 import com.arctouch.codechallenge.util.SingleLiveEvent
 import com.arctouch.codechallenge.util.schedulers.BaseScheduler
 import me.tatarka.bindingcollectionadapter2.ItemBinding
