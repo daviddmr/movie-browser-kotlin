@@ -7,4 +7,10 @@
     <string name="genres">Gêneros:</string>
     <string name="overview">Sinopse:</string>
     <string name="not_registered">Não cadastrado</string>
+
+    <!--Request Error Messages-->
+    <string name="get_genre_error">Não foi possível buscar os gêneros</string>
+    <string name="get_upcoming_movies_error">Não foi possível buscar os próximos lançamentos</string>
+    <string name="get_top_rated_movies_error">Não foi possível buscar os filmes mais cotados</string>
+    <string name="get_queried_movies_error">Não foi possível buscar nenhum filme</string>
 </resources>

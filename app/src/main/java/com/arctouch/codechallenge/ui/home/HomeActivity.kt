@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -43,6 +44,12 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscriber() {
+        viewModel.message.observe(this, Observer { message ->
+            message?.let {
+                Snackbar.make(window.decorView, message, Snackbar.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.openMovieDetailActEvent.observe(this, Observer { movie ->
             movie?.let { openMovieDetailAct(it) }
         })
