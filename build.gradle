@@ -5,20 +5,23 @@ ext {
     compileSdkVersion = 28
 
     // App dependencies
-    supportLibraryVersion = '27.1.1'
-    supportConstraintLayoutVersion = '1.1.3'
+    supportLibraryVersion = '1.1.0'
+    constraintLayoutVersion = '1.1.3'
+    cardViewVersion = '1.0.0'
     retrofitVersion = '2.3.0'
-    rxAndroidVersion = '2.0.2'
-    glideVersion = '4.9.0'
-    daggerVersion = '2.15'
-    runnerVersion = '1.0.2'
-    espressoVersion = '3.0.2'
     loggingInterceptorVersion = '3.10.0'
+    rxAndroidVersion = '2.0.2'
+    glideVersion = '4.11.0'
+    daggerVersion = '2.15'
 
     // Architecture Components dependencies
-    archLifecycleVersion = '1.1.1'
-    databindingCompilerVersion = '3.1.3'
+    archLifecycleVersion = '2.2.0'
     databindingAdapterVersion = '2.2.0'
+
+    // Test dependencies
+    junitVersion = '4.12'
+    junitSupportVersion = '1.1.1'
+    espressoVersion = '3.2.0'
 }
 
 buildscript {

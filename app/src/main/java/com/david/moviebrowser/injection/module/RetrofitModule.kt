@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class RetrofitModule {
 
     companion object {
-        const val API_KEY = "1f54bd990f1cdfb230adb312546d765d"
+        const val API_KEY = BuildConfig.API_KEY
     }
 
     private val logging: HttpLoggingInterceptor = HttpLoggingInterceptor()
