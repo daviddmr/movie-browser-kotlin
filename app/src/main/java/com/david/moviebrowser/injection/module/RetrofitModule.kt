@@ -18,8 +18,6 @@ class RetrofitModule {
 
     companion object {
         const val API_KEY = "1f54bd990f1cdfb230adb312546d765d"
-        const val DEFAULT_LANGUAGE = "pt-BR"
-        const val DEFAULT_REGION = "BR"
     }
 
     private val logging: HttpLoggingInterceptor = HttpLoggingInterceptor()
