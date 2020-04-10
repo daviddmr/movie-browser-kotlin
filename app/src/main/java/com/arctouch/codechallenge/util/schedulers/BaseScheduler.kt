@@ -1,6 +1,6 @@
 package com.arctouch.codechallenge.util.schedulers
 
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import io.reactivex.Scheduler
 
 

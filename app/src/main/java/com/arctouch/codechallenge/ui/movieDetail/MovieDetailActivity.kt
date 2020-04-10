@@ -1,6 +1,6 @@
 package com.arctouch.codechallenge.ui.movieDetail
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.databinding.MovieDetailActivityBinding

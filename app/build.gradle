@@ -11,7 +11,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -38,16 +38,16 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Android support library
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.supportConstraintLayoutVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
 
     // Android architecture components
-    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archLifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
 
     // Binding collection adapter
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
@@ -78,8 +78,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     // Android Testing Support Libraries
-    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     // Espresso UI Testing
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }

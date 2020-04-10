@@ -1,6 +1,6 @@
 package com.arctouch.codechallenge.util;
 
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.arctouch.codechallenge.R;
