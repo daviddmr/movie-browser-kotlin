@@ -3,31 +3,39 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def apiKeyPropertiesFile = rootProject.file("apikey.properties")
+def apiKeyProperties = new Properties()
+apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.arctouch.codechallenge"
+        applicationId "com.david.moviebrowser"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        buildConfigField("String", "API_KEY", apiKeyProperties['API_KEY'])
+        buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
     }
+
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
         }
     }
+
     dataBinding {
         enabled = true
     }
+
     androidExtensions {
         experimental = true
     }
@@ -38,36 +46,33 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Android support library
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.supportConstraintLayoutVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.supportLibraryVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.supportLibraryVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.supportLibraryVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+    implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
 
     // Android architecture components
-    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archLifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
-
-    // Android data binding
-    kapt "com.android.databinding:compiler:$rootProject.ext.databindingCompilerVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archLifecycleVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archLifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archLifecycleVersion"
 
     // Binding collection adapter
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
 
-    //Retrofit
+    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
 
-    //Logging Interceptor
+    // Logging Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptorVersion"
 
     // RxAndroid
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
 
-    //Glide - Image loading framework
+    // Glide - Image loading framework
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
     // Dagger 2
@@ -78,11 +83,11 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
 
     // Dependencies for local unit tests
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
 
     // Android Testing Support Libraries
-    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitSupportVersion"
 
     // Espresso UI Testing
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
 }

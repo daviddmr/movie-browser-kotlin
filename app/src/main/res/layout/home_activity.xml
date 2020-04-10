@@ -8,14 +8,14 @@
 
         <variable
             name="viewModel"
-            type="com.arctouch.codechallenge.ui.home.HomeViewModel" />
+            type="com.david.moviebrowser.ui.home.HomeViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_queried_movies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,9 +25,9 @@
             android:visibility="@{viewModel.queriedMovies.size > 0 ? View.VISIBLE : View.GONE}"
             app:itemBinding="@{viewModel.moviesBinding}"
             app:items="@{viewModel.queriedMovies}"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_top_rated_movies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,7 +37,7 @@
             android:visibility="@{viewModel.queriedMovies.size > 0 ? View.GONE : View.VISIBLE}"
             app:itemBinding="@{viewModel.moviesBinding}"
             app:items="@{viewModel.topRatedMovies}"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:layout_width="wrap_content"

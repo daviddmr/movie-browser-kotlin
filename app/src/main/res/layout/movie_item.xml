@@ -9,14 +9,14 @@
 
         <variable
             name="movie"
-            type="com.arctouch.codechallenge.model.Movie" />
+            type="com.david.moviebrowser.model.Movie" />
 
         <variable
             name="listener"
-            type="com.arctouch.codechallenge.ui.home.MovieAdapterOnItemClickListener" />
+            type="com.david.moviebrowser.ui.home.MovieAdapterOnItemClickListener" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_marginStart="16dp"
@@ -82,5 +82,5 @@
 
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>
