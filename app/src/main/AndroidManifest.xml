@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.arctouch.codechallenge">
+    package="com.david.moviebrowser">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="com.david.moviebrowser.App"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.home.HomeActivity">
+        <activity android:name="com.david.moviebrowser.ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".ui.movieDetail.MovieDetailActivity"
+            android:name="com.david.moviebrowser.ui.movieDetail.MovieDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

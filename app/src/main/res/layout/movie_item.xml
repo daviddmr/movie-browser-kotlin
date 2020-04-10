@@ -9,11 +9,11 @@
 
         <variable
             name="movie"
-            type="com.arctouch.codechallenge.model.Movie" />
+            type="com.david.moviebrowser.model.Movie" />
 
         <variable
             name="listener"
-            type="com.arctouch.codechallenge.ui.home.MovieAdapterOnItemClickListener" />
+            type="com.david.moviebrowser.ui.home.MovieAdapterOnItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView

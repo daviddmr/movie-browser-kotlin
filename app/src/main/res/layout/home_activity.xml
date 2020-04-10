@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.arctouch.codechallenge.ui.home.HomeViewModel" />
+            type="com.david.moviebrowser.ui.home.HomeViewModel" />
     </data>
 
     <RelativeLayout

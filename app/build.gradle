@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.arctouch.codechallenge"
+        applicationId "com.david.moviebrowser"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
