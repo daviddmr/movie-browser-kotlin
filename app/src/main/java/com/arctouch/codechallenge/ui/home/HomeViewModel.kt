@@ -1,11 +1,13 @@
 package com.arctouch.codechallenge.ui.home
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
-import android.databinding.ObservableList
-import android.support.v7.widget.LinearLayoutManager
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.arctouch.codechallenge.App
 import com.arctouch.codechallenge.BR
 import com.arctouch.codechallenge.R
@@ -13,8 +15,7 @@ import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.injection.module.RetrofitModule
 import com.arctouch.codechallenge.model.Movie
-import com.arctouch.codechallenge.util.SingleLiveEvent
-import com.arctouch.codechallenge.util.SnackbarMessage
+import com.arctouch.codechallenge.util.Event
 import com.arctouch.codechallenge.util.schedulers.BaseScheduler
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import javax.inject.Inject
@@ -36,8 +37,13 @@ constructor(
     val upcomingMovies: ObservableList<Movie> = ObservableArrayList()
 
     //Events
-    val openMovieDetailActEvent = SingleLiveEvent<Movie>()
-    val message = SnackbarMessage()
+    private val _openMovieDetailActEvent = MutableLiveData<Event<Movie>>()
+    val openMovieDetailActEvent: LiveData<Event<Movie>>
+        get() = _openMovieDetailActEvent
+
+    private val _message = MutableLiveData<Event<String>>()
+    val message: LiveData<Event<String>>
+        get() = _message
 
     //Actions
     private var isLastPageOfTopRatedMovies = ObservableBoolean()
@@ -70,7 +76,7 @@ constructor(
                     findTopRatedMovies(1)
                 }, {
                     loadingMovies.set(false)
-                    message.value = App.res.getString(R.string.get_genre_error)
+                    _message.value = Event(App.res.getString(R.string.get_genre_error))
                 })
     }
 
@@ -90,7 +96,7 @@ constructor(
                     loadingMovies.set(false)
                 }, {
                     loadingMovies.set(false)
-                    message.value = App.res.getString(R.string.get_upcoming_movies_error)
+                    _message.value = Event(App.res.getString(R.string.get_upcoming_movies_error))
                 })
     }
 
@@ -109,7 +115,7 @@ constructor(
                     loadingMovies.set(false)
                 }, {
                     loadingMovies.set(false)
-                    message.value = App.res.getString(R.string.get_top_rated_movies_error)
+                    _message.value = Event(App.res.getString(R.string.get_top_rated_movies_error))
                 })
     }
 
@@ -129,7 +135,7 @@ constructor(
                         loadingMovies.set(false)
                     }, {
                         loadingMovies.set(false)
-                        message.value = App.res.getString(R.string.get_queried_movies_error)
+                        _message.value = Event(App.res.getString(R.string.get_queried_movies_error))
                     })
         }
     }
@@ -169,7 +175,7 @@ constructor(
 
     //Override functions
     override fun openMovieDetailAct(movie: Movie) {
-        openMovieDetailActEvent.value = movie
+        _openMovieDetailActEvent.value = Event(movie)
     }
 }
 

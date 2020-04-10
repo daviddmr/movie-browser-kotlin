@@ -1,23 +1,23 @@
 package com.arctouch.codechallenge.ui.home
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.databinding.HomeActivityBinding
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.ui.movieDetail.MovieDetailActivity
+import com.arctouch.codechallenge.util.observeEvent
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -44,15 +44,13 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscriber() {
-        viewModel.message.observe(this, Observer { message ->
-            message?.let {
-                Snackbar.make(window.decorView, message, Snackbar.LENGTH_LONG).show()
-            }
-        })
+        viewModel.message.observeEvent(this) { message ->
+            Snackbar.make(window.decorView, message, Snackbar.LENGTH_LONG).show()
+        }
 
-        viewModel.openMovieDetailActEvent.observe(this, Observer { movie ->
-            movie?.let { openMovieDetailAct(it) }
-        })
+        viewModel.openMovieDetailActEvent.observeEvent(this) { movie ->
+            openMovieDetailAct(movie)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
