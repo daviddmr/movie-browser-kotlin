@@ -67,7 +67,7 @@ constructor(
     //Requests
     private fun getGenres() {
         loadingMovies.set(true)
-        tmdbApi.genres(RetrofitModule.API_KEY, RetrofitModule.DEFAULT_LANGUAGE)
+        tmdbApi.genres()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
