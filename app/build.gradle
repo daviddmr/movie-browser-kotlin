@@ -54,8 +54,6 @@ dependencies {
 
     // Android architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archLifecycleVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archLifecycleVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archLifecycleVersion"
 
     // Binding collection adapter
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
