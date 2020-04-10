@@ -49,25 +49,22 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
     kapt "android.arch.lifecycle:compiler:$rootProject.ext.archLifecycleVersion"
 
-    // Android data binding
-    kapt "com.android.databinding:compiler:$rootProject.ext.databindingCompilerVersion"
-
     // Binding collection adapter
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
 
-    //Retrofit
+    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
 
-    //Logging Interceptor
+    // Logging Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptorVersion"
 
     // RxAndroid
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
 
-    //Glide - Image loading framework
+    // Glide - Image loading framework
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
     // Dagger 2
