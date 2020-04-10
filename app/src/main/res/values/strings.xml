@@ -1,16 +1,19 @@
 <resources>
-    <string name="app_name">Code Challenge</string>
+    <string name="app_name">Movie Browser</string>
     <string name="movie_and_genres">%s - %s</string>
 
+    <string name="default_language">en-US</string>
+    <string name="default_region">US</string>
+
     <!--Movie Detail Screen-->
-    <string name="original_title">Título original:</string>
-    <string name="genres">Gêneros:</string>
-    <string name="overview">Sinopse:</string>
-    <string name="not_registered">Não cadastrado</string>
+    <string name="original_title">Original title:</string>
+    <string name="genres">Genres:</string>
+    <string name="overview">Synopsis:</string>
+    <string name="not_registered">Not registered</string>
 
     <!--Request Error Messages-->
-    <string name="get_genre_error">Não foi possível buscar os gêneros</string>
-    <string name="get_upcoming_movies_error">Não foi possível buscar os próximos lançamentos</string>
-    <string name="get_top_rated_movies_error">Não foi possível buscar os filmes mais cotados</string>
-    <string name="get_queried_movies_error">Não foi possível buscar nenhum filme</string>
+    <string name="get_genre_error">Unable to fetch genres</string>
+    <string name="get_upcoming_movies_error">Unable to fetch upcoming releases</string>
+    <string name="get_top_rated_movies_error">Unable to fetch top rated movies</string>
+    <string name="get_queried_movies_error">Could not fetch any movies</string>
 </resources>
