@@ -39,5 +39,4 @@ class RetrofitModule {
     fun provideTmdbApiService(): TmdbApi {
         return builder.client(httpClient.build()).build().create(TmdbApi::class.java)
     }
-
 }
