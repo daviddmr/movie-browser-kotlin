@@ -7,6 +7,7 @@ import androidx.databinding.ObservableList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.david.moviebrowser.App
 import com.david.moviebrowser.BR
@@ -16,7 +17,6 @@ import com.david.moviebrowser.data.Cache
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.repository.MovieRepository
 import com.david.moviebrowser.util.Event
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
@@ -68,9 +68,8 @@ constructor(
     //Requests
     private fun getGenres() {
         loadingMovies.set(true)
-        val scope = CoroutineScope(Dispatchers.Main)
 
-        scope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val result = movieRepository.getGenres()) {
                 is Result.Success -> {
                     Cache.cacheGenres(result.data.genres)
@@ -86,9 +85,8 @@ constructor(
 
     private fun findUpcomingMovies(page: Long) {
         loadingMovies.set(true)
-        val scope = CoroutineScope(Dispatchers.Main)
 
-        scope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val result = movieRepository.getUpcomingMovies(page)) {
                 is Result.Success -> {
                     if (result.data.page < result.data.totalPages) {
@@ -96,7 +94,9 @@ constructor(
                     } else {
                         isLastPageOfUpcomingMovies.set(true)
                     }
-                    upcomingMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    viewModelScope.launch(Dispatchers.Main) {
+                        upcomingMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    }
                 }
                 is Result.Error -> {
                     _message.value = Event(App.res.getString(R.string.get_upcoming_movies_error))
@@ -108,9 +108,8 @@ constructor(
 
     private fun findTopRatedMovies(page: Long) {
         loadingMovies.set(true)
-        val scope = CoroutineScope(Dispatchers.Main)
 
-        scope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val result = movieRepository.getTopRatedMovies(page)) {
                 is Result.Success -> {
                     if (result.data.page < result.data.totalPages) {
@@ -118,7 +117,9 @@ constructor(
                     } else {
                         isLastPageOfTopRatedMovies.set(true)
                     }
-                    topRatedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    viewModelScope.launch(Dispatchers.Main) {
+                        topRatedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    }
                 }
                 is Result.Error -> {
                     _message.value = Event(App.res.getString(R.string.get_top_rated_movies_error))
@@ -130,9 +131,8 @@ constructor(
 
     private fun findMoviesByText(page: Long) {
         loadingMovies.set(true)
-        val scope = CoroutineScope(Dispatchers.Main)
 
-        scope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             textToQueryMovie.get()?.let { query ->
                 when (val result = movieRepository.findMoviesByText(query, page)) {
                     is Result.Success -> {
@@ -141,7 +141,9 @@ constructor(
                         } else {
                             isLastPageOfQueriedMovies.set(true)
                         }
-                        queriedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                        viewModelScope.launch(Dispatchers.Main) {
+                            queriedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                        }
                     }
                     is Result.Error -> {
                         _message.value = Event(App.res.getString(R.string.get_queried_movies_error))
