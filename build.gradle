@@ -18,6 +18,7 @@ ext {
     // Architecture Components dependencies
     archLifecycleVersion = '2.2.0'
     databindingAdapterVersion = '2.2.0'
+    fragmentKtx = '1.2.4'
 
     // Test dependencies
     junitVersion = '4.12'

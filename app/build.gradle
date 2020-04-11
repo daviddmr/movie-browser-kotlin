@@ -54,6 +54,7 @@ dependencies {
 
     // Android architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archLifecycleVersion"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtx"
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinCoroutinesVersion"
