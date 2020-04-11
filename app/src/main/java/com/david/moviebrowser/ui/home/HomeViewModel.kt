@@ -74,14 +74,13 @@ constructor(
             when (val result = movieRepository.getGenres()) {
                 is Result.Success -> {
                     Cache.cacheGenres(result.data.genres)
-                    loadingMovies.set(false)
                     findTopRatedMovies(1)
                 }
                 is Result.Error -> {
-                    loadingMovies.set(false)
                     _message.value = Event(App.res.getString(R.string.get_genre_error))
                 }
             }
+            loadingMovies.set(false)
         }
     }
 
@@ -98,13 +97,12 @@ constructor(
                         isLastPageOfUpcomingMovies.set(true)
                     }
                     upcomingMovies.addAll(Cache.filterMoviesWithGenres(result.data))
-                    loadingMovies.set(false)
                 }
                 is Result.Error -> {
-                    loadingMovies.set(false)
                     _message.value = Event(App.res.getString(R.string.get_upcoming_movies_error))
                 }
             }
+            loadingMovies.set(false)
         }
     }
 
@@ -121,13 +119,12 @@ constructor(
                         isLastPageOfTopRatedMovies.set(true)
                     }
                     topRatedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
-                    loadingMovies.set(false)
                 }
                 is Result.Error -> {
-                    loadingMovies.set(false)
                     _message.value = Event(App.res.getString(R.string.get_top_rated_movies_error))
                 }
             }
+            loadingMovies.set(false)
         }
     }
 
@@ -145,13 +142,12 @@ constructor(
                             isLastPageOfQueriedMovies.set(true)
                         }
                         queriedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
-                        loadingMovies.set(false)
                     }
                     is Result.Error -> {
-                        loadingMovies.set(false)
                         _message.value = Event(App.res.getString(R.string.get_queried_movies_error))
                     }
                 }
+                loadingMovies.set(false)
             }
         }
     }
