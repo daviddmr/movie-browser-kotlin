@@ -1,9 +1,4 @@
 ext {
-    //SDK and tools
-    minSdkVersion = 24
-    targetSdkVersion = 34
-    compileSdkVersion = 34
-
     // App dependencies
     daggerVersion = '2.15'
 

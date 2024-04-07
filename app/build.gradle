@@ -12,9 +12,9 @@ apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
 android {
     defaultConfig {
         applicationId "com.david.moviebrowser"
-        compileSdk rootProject.ext.compileSdkVersion
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk libs.versions.sdk.compile.get() as Integer
+        minSdkVersion libs.versions.sdk.min.get() as Integer
+        targetSdkVersion libs.versions.sdk.target.get() as Integer
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

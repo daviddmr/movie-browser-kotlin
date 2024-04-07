@@ -1,4 +1,8 @@
 [versions]
+sdk-min = "24"
+sdk-compile = "34"
+sdk-target = "34"
+
 android-gradle = "8.2.2"
 androidx-junit = "1.1.5"
 appcompat = "1.6.1"
