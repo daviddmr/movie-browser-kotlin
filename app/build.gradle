@@ -91,13 +91,6 @@ dependencies {
     // Glide - Image loading framework
     implementation libs.glide
 
-    // Dagger 2
-    implementation libs.dagger
-    implementation libs.dagger.android
-    implementation libs.dagger.android.support
-    kapt libs.dagger.compiler
-    kapt libs.dagger.android.processor
-
     // Hilt
     implementation libs.hilt.android
     kapt libs.hilt.compiler
