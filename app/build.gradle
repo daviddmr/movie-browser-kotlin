@@ -73,8 +73,8 @@ dependencies {
     implementation libs.kotlinx.coroutines.android
 
     // Binding collection adapter
-    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
-    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
+    implementation libs.bindingcollectionadapter
+    implementation libs.bindingcollectionadapter.recyclerview
 
     // Retrofit
     implementation libs.retrofit
@@ -87,11 +87,11 @@ dependencies {
     implementation libs.glide
 
     // Dagger 2
-    implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 
     // Dependencies for local unit tests
     testImplementation libs.junit
