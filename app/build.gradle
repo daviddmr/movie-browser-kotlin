@@ -12,9 +12,9 @@ apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
 android {
     defaultConfig {
         applicationId "com.david.moviebrowser"
-        compileSdk rootProject.ext.compileSdkVersion
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk libs.versions.sdk.compile.get() as Integer
+        minSdkVersion libs.versions.sdk.min.get() as Integer
+        targetSdkVersion libs.versions.sdk.target.get() as Integer
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,49 +56,49 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation libs.kotlin.stdlib.jdk7
 
     // Android support library
-    implementation "androidx.appcompat:appcompat:$rootProject.ext.supportLibraryVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recyclerViewVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
-    implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
+    implementation libs.appcompat
+    implementation libs.recyclerview
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.cardview
 
     // Android architecture components
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archLifecycleVersion"
-    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtx"
+    implementation libs.lifecycle.extensions
+    implementation libs.fragment.ktx
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinCoroutinesVersion"
+    implementation libs.kotlinx.coroutines.android
 
     // Binding collection adapter
-    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
-    implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
+    implementation libs.bindingcollectionadapter
+    implementation libs.bindingcollectionadapter.recyclerview
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    implementation libs.retrofit
+    implementation libs.converter.gson
 
     // Logging Interceptor
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptorVersion"
+    implementation libs.logging.interceptor
 
     // Glide - Image loading framework
-    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    implementation libs.glide
 
     // Dagger 2
-    implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 
     // Dependencies for local unit tests
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation libs.junit
 
     // Android Testing Support Libraries
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitSupportVersion"
+    androidTestImplementation libs.ext.junit
 
     // Espresso UI Testing
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    androidTestImplementation libs.espresso.core
 }
