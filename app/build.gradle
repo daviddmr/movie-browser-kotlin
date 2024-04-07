@@ -60,7 +60,6 @@ kapt {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libs.kotlin.stdlib.jdk7
 
     // Android support library
