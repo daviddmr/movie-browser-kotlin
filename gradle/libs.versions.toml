@@ -15,7 +15,6 @@ glide = "4.14.2"
 google-hilt = "2.48.1"
 junit = "4.13.2"
 kotlin-lang = "1.9.20"
-kotlin-stdlib-jdk7 = "1.9.20"
 kotlinx-coroutines-android = "1.7.3"
 lifecycle-extensions = "2.2.0"
 logging-interceptor = "4.12.0"
@@ -40,7 +39,6 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "googl
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-hilt" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-lang" }
-kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin-stdlib-jdk7" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle-extensions" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
