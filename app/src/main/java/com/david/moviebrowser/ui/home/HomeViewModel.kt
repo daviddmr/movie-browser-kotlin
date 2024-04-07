@@ -17,11 +17,13 @@ import com.david.moviebrowser.data.Cache
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.repository.MovieRepository
 import com.david.moviebrowser.util.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeViewModel
 @Inject
 constructor(

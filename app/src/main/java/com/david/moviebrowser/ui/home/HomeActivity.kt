@@ -6,9 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.david.moviebrowser.R
@@ -17,22 +18,18 @@ import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.ui.movieDetail.MovieDetailActivity
 import com.david.moviebrowser.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
-import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class HomeActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class HomeActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var binding: HomeActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
 
@@ -57,7 +54,8 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         val searchItem = menu.findItem(R.id.search_movie_menu_item_filter)
         val searchView = searchItem.actionView as SearchView
-        val closeButton = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        val closeButton =
+            searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
 
         searchView.setOnQueryTextListener(onQueryTextListener())
         closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))
@@ -119,7 +117,8 @@ class HomeActivity : DaggerAppCompatActivity() {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val mLinearLayoutManager = binding.rvTopRatedMovies.layoutManager as LinearLayoutManager
+                val mLinearLayoutManager =
+                    binding.rvTopRatedMovies.layoutManager as LinearLayoutManager
                 viewModel.checkIfListItIsOverAndFindTopRatedMovies(mLinearLayoutManager)
             }
         }
@@ -129,7 +128,8 @@ class HomeActivity : DaggerAppCompatActivity() {
         return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val mLinearLayoutManager = binding.rvQueriedMovies.layoutManager as LinearLayoutManager
+                val mLinearLayoutManager =
+                    binding.rvQueriedMovies.layoutManager as LinearLayoutManager
                 viewModel.checkIfListItIsOverAndFindQueriedMovies(mLinearLayoutManager)
             }
         }
