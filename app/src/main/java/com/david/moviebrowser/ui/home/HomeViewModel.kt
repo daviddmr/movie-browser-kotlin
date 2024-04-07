@@ -7,24 +7,25 @@ import androidx.databinding.ObservableList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.david.moviebrowser.App
 import com.david.moviebrowser.BR
 import com.david.moviebrowser.R
-import com.david.moviebrowser.api.TmdbApi
+import com.david.moviebrowser.api.response.Result
 import com.david.moviebrowser.data.Cache
-import com.david.moviebrowser.injection.module.RetrofitModule
 import com.david.moviebrowser.model.Movie
+import com.david.moviebrowser.repository.MovieRepository
 import com.david.moviebrowser.util.Event
-import com.david.moviebrowser.util.schedulers.BaseScheduler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import javax.inject.Inject
 
 class HomeViewModel
 @Inject
 constructor(
-        private val scheduler: BaseScheduler,
-        private val tmdbApi: TmdbApi
+        private val movieRepository: MovieRepository
 ) : ViewModel(), MovieAdapterOnItemClickListener {
 
     //Binds for view components
@@ -67,76 +68,89 @@ constructor(
     //Requests
     private fun getGenres() {
         loadingMovies.set(true)
-        tmdbApi.genres()
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    Cache.cacheGenres(it.genres)
-                    loadingMovies.set(false)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = movieRepository.getGenres()) {
+                is Result.Success -> {
+                    Cache.cacheGenres(result.data.genres)
                     findTopRatedMovies(1)
-                }, {
-                    loadingMovies.set(false)
+                }
+                is Result.Error -> {
                     _message.value = Event(App.res.getString(R.string.get_genre_error))
-                })
+                }
+            }
+            loadingMovies.set(false)
+        }
     }
 
-    // I didn't use the request find upcoming movies because the result brought only one movie, so I preferred change to request find top rated movies because there were more movies to show.
     private fun findUpcomingMovies(page: Long) {
         loadingMovies.set(true)
-        tmdbApi.upcomingMovies(page)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    if (it.page < it.totalPages) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = movieRepository.getUpcomingMovies(page)) {
+                is Result.Success -> {
+                    if (result.data.page < result.data.totalPages) {
                         currentPageUpcomingMovies++
                     } else {
                         isLastPageOfUpcomingMovies.set(true)
                     }
-                    upcomingMovies.addAll(Cache.filterMoviesWithGenres(it))
-                    loadingMovies.set(false)
-                }, {
-                    loadingMovies.set(false)
+                    viewModelScope.launch(Dispatchers.Main) {
+                        upcomingMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    }
+                }
+                is Result.Error -> {
                     _message.value = Event(App.res.getString(R.string.get_upcoming_movies_error))
-                })
+                }
+            }
+            loadingMovies.set(false)
+        }
     }
 
     private fun findTopRatedMovies(page: Long) {
         loadingMovies.set(true)
-        tmdbApi.topRatedMovies(page)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    if (it.page < it.totalPages) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = movieRepository.getTopRatedMovies(page)) {
+                is Result.Success -> {
+                    if (result.data.page < result.data.totalPages) {
                         currentPageTopRatedMovies++
                     } else {
                         isLastPageOfTopRatedMovies.set(true)
                     }
-                    topRatedMovies.addAll(Cache.filterMoviesWithGenres(it))
-                    loadingMovies.set(false)
-                }, {
-                    loadingMovies.set(false)
+                    viewModelScope.launch(Dispatchers.Main) {
+                        topRatedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                    }
+                }
+                is Result.Error -> {
                     _message.value = Event(App.res.getString(R.string.get_top_rated_movies_error))
-                })
+                }
+            }
+            loadingMovies.set(false)
+        }
     }
 
     private fun findMoviesByText(page: Long) {
         loadingMovies.set(true)
-        textToQueryMovie.get()?.let { query ->
-            tmdbApi.findMoviesByText(query, page)
-                    .subscribeOn(scheduler.io())
-                    .observeOn(scheduler.ui())
-                    .subscribe({
-                        if (it.page < it.totalPages) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            textToQueryMovie.get()?.let { query ->
+                when (val result = movieRepository.findMoviesByText(query, page)) {
+                    is Result.Success -> {
+                        if (result.data.page < result.data.totalPages) {
                             currentPageQueriedMovies++
                         } else {
                             isLastPageOfQueriedMovies.set(true)
                         }
-                        queriedMovies.addAll(Cache.filterMoviesWithGenres(it))
-                        loadingMovies.set(false)
-                    }, {
-                        loadingMovies.set(false)
+                        viewModelScope.launch(Dispatchers.Main) {
+                            queriedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
+                        }
+                    }
+                    is Result.Error -> {
                         _message.value = Event(App.res.getString(R.string.get_queried_movies_error))
-                    })
+                    }
+                }
+                loadingMovies.set(false)
+            }
         }
     }
 

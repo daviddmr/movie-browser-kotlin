@@ -3,7 +3,7 @@ package com.david.moviebrowser.api
 import com.david.moviebrowser.model.GenreResponse
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.model.RequestMoviesResponse
-import io.reactivex.Observable
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -11,26 +11,26 @@ import retrofit2.http.Query
 interface TmdbApi {
 
     @GET("genre/movie/list")
-    fun genres(): Observable<GenreResponse>
+    suspend fun getGenres(): Response<GenreResponse>
 
     @GET("movie/upcoming")
-    fun upcomingMovies(
+    suspend fun getUpcomingMovies(
             @Query("page") page: Long
-    ): Observable<RequestMoviesResponse>
+    ): Response<RequestMoviesResponse>
 
     @GET("movie/top_rated")
-    fun topRatedMovies(
+    suspend fun getTopRatedMovies(
             @Query("page") page: Long
-    ): Observable<RequestMoviesResponse>
+    ): Response<RequestMoviesResponse>
 
     @GET("search/movie")
-    fun findMoviesByText(
+    suspend fun findMoviesByText(
             @Query("query") query: String,
             @Query("page") page: Long
-    ): Observable<RequestMoviesResponse>
+    ): Response<RequestMoviesResponse>
 
     @GET("movie/{id}")
-    fun movie(
+    suspend fun getMovieDetail(
             @Path("id") id: Long
-    ): Observable<Movie>
+    ): Response<Movie>
 }

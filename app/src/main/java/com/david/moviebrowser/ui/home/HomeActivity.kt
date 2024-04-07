@@ -9,7 +9,6 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.david.moviebrowser.R
@@ -33,7 +32,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
         binding.viewModel = viewModel
 
@@ -58,7 +57,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         val searchItem = menu.findItem(R.id.search_movie_menu_item_filter)
         val searchView = searchItem.actionView as SearchView
-        val closeButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
+        val closeButton = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
 
         searchView.setOnQueryTextListener(onQueryTextListener())
         closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))
