@@ -56,35 +56,35 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation libs.kotlin.stdlib.jdk7
 
     // Android support library
-    implementation "androidx.appcompat:appcompat:$rootProject.ext.supportLibraryVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recyclerViewVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
-    implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
+    implementation libs.appcompat
+    implementation libs.recyclerview
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.cardview
 
     // Android architecture components
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archLifecycleVersion"
-    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtx"
+    implementation libs.lifecycle.extensions
+    implementation libs.fragment.ktx
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinCoroutinesVersion"
+    implementation libs.kotlinx.coroutines.android
 
     // Binding collection adapter
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$rootProject.ext.databindingAdapterVersion"
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$rootProject.ext.databindingAdapterVersion"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    implementation libs.retrofit
+    implementation libs.converter.gson
 
     // Logging Interceptor
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptorVersion"
+    implementation libs.logging.interceptor
 
     // Glide - Image loading framework
-    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    implementation libs.glide
 
     // Dagger 2
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
@@ -94,11 +94,11 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
 
     // Dependencies for local unit tests
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation libs.junit
 
     // Android Testing Support Libraries
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitSupportVersion"
+    androidTestImplementation libs.ext.junit
 
     // Espresso UI Testing
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    androidTestImplementation libs.espresso.core
 }
