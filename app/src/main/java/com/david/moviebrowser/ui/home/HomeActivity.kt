@@ -57,7 +57,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         val searchItem = menu.findItem(R.id.search_movie_menu_item_filter)
         val searchView = searchItem.actionView as SearchView
-        val closeButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
+        val closeButton = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
 
         searchView.setOnQueryTextListener(onQueryTextListener())
         closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))

@@ -1,17 +1,19 @@
 ext {
     //SDK and tools
-    minSdkVersion = 19
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    minSdkVersion = 24
+    targetSdkVersion = 34
+    compileSdkVersion = 34
 
     // App dependencies
-    supportLibraryVersion = '1.1.0'
-    constraintLayoutVersion = '1.1.3'
+    supportLibraryVersion = '1.6.1'
+    recyclerViewVersion = '1.3.2'
+    materialVersion = '1.11.0'
+    constraintLayoutVersion = '2.1.4'
     cardViewVersion = '1.0.0'
     kotlinCoroutinesVersion = '1.3.1'
-    retrofitVersion = '2.6.2'
-    loggingInterceptorVersion = '4.2.1'
-    glideVersion = '4.11.0'
+    retrofitVersion = '2.9.0'
+    loggingInterceptorVersion = '4.12.0'
+    glideVersion = '4.14.2'
     daggerVersion = '2.15'
 
     // Architecture Components dependencies
@@ -20,17 +22,17 @@ ext {
     fragmentKtx = '1.2.4'
 
     // Test dependencies
-    junitVersion = '4.12'
-    junitSupportVersion = '1.1.1'
-    espressoVersion = '3.2.0'
+    junitVersion = '4.13.2'
+    junitSupportVersion = '1.1.5'
+    espressoVersion = '3.5.1'
 }
 
 buildscript {
-    ext.gradle_version = '3.5.3'
-    ext.kotlin_version = '1.3.50'
+    ext.gradle_version = '8.2.0'
+    ext.kotlin_version = '1.9.20'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
@@ -41,10 +43,10 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

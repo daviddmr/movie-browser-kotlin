@@ -1,16 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
 
 def apiKeyPropertiesFile = rootProject.file("apikey.properties")
 def apiKeyProperties = new Properties()
 apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.david.moviebrowser"
+        compileSdk rootProject.ext.compileSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -32,13 +34,24 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget=17
+    }
+
     dataBinding {
         enabled = true
     }
 
-    androidExtensions {
-        experimental = true
+    buildFeatures {
+        buildConfig true
+        viewBinding true
     }
+    namespace 'com.david.moviebrowser'
 }
 
 dependencies {
@@ -47,8 +60,8 @@ dependencies {
 
     // Android support library
     implementation "androidx.appcompat:appcompat:$rootProject.ext.supportLibraryVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.supportLibraryVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.supportLibraryVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recyclerViewVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
 

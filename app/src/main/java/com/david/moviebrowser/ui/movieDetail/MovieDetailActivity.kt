@@ -20,8 +20,8 @@ class MovieDetailActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.movie_detail_activity)
 
-        intent?.let {
-            movie = intent.getParcelableExtra(ARG_MOVIE)
+        intent.getParcelableExtra<Movie>(ARG_MOVIE)?.let {
+            movie = it
             binding.movie = movie
         }
 

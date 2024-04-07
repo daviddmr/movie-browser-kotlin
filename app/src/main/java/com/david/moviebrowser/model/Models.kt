@@ -3,7 +3,7 @@ package com.david.moviebrowser.model
 import android.os.Parcelable
 import com.david.moviebrowser.util.MovieImageUrlBuilder
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class GenreResponse(val genres: List<Genre>)
 
