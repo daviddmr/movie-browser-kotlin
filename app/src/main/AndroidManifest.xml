@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.david.moviebrowser.ui.home.HomeActivity"
+        <activity android:name="com.david.moviebrowser.ui.home.HomeFragment"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

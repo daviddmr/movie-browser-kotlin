@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.david.moviebrowser.R
-import com.david.moviebrowser.databinding.HomeActivityBinding
+import com.david.moviebrowser.databinding.FragmentHomeBinding
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.ui.movieDetail.MovieDetailActivity
 import com.david.moviebrowser.util.observeEvent
@@ -22,15 +22,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class HomeFragment : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var binding: HomeActivityBinding
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.home_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.fragment_home)
         binding.viewModel = viewModel
 
         binding.rvTopRatedMovies.addOnScrollListener(onScrollTopRatedMoviesListener())
