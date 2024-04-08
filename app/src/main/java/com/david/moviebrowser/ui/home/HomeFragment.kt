@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     companion object {
         const val TAG = "HomeFragment"
@@ -79,9 +79,9 @@ class HomeFragment : BaseFragment() {
         val closeButton =
             searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
 
-        searchView.setOnQueryTextListener(onQueryTextListener())
+        searchView.setOnQueryTextListener(this)
         closeButton.setOnClickListener(onCloseButtonSearchViewListener(searchView))
-        searchItem.setOnActionExpandListener(onSearchViewCollapseListener())
+        searchItem.setOnActionExpandListener(this)
         searchView.maxWidth = Integer.MAX_VALUE
 
         if (viewModel.isSearchViewExpanded.get()) {
@@ -119,20 +119,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun onSearchViewCollapseListener(): MenuItem.OnActionExpandListener {
-        return object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                viewModel.updateSearchViewExpandedState(true)
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                viewModel.updateSearchViewExpandedState(false)
-                return true
-            }
-        }
-    }
-
     private fun onCloseButtonSearchViewListener(searchView: SearchView): View.OnClickListener {
         return View.OnClickListener {
             searchView.setQuery("", false)
@@ -160,5 +146,26 @@ class HomeFragment : BaseFragment() {
                 viewModel.checkIfListItIsOverAndFindQueriedMovies(mLinearLayoutManager)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query?.isNotEmpty() == true) {
+            viewModel.submitSearchQuery(query)
+        }
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
+    }
+
+    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+        viewModel.updateSearchViewExpandedState(true)
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+        viewModel.updateSearchViewExpandedState(false)
+        return true
     }
 }
