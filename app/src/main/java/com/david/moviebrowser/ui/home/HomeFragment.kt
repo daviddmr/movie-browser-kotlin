@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +56,13 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
         binding.rvTopRatedMovies.addOnScrollListener(onScrollTopRatedMoviesListener())
         binding.rvQueriedMovies.addOnScrollListener(onScrollQueriedMoviesListener())
 
+        (activity as? AppCompatActivity)?.let { activity ->
+            activity.setSupportActionBar(binding.toolbar)
+            activity.supportActionBar?.let { actionBar ->
+                actionBar.title = getString(R.string.home_title)
+            }
+        }
+
         subscriber()
     }
 
@@ -70,8 +78,6 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
         inflater.inflate(R.menu.search_movie_menu, menu)
 
         val searchItem = menu.findItem(R.id.search_movie_menu_item_filter)
@@ -88,6 +94,7 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
             searchItem.expandActionView()
             searchView.setQuery(viewModel.textToQueryMovie.get(), false)
         }
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun openMovieDetailAct(movie: Movie) {
@@ -96,7 +103,7 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
         parentFragmentManager
             .beginTransaction()
             .replace(
-                R.id.activity_main_container,
+                R.id.content_frame,
                 fragment,
             )
             .addToBackStack(MovieDetailFragment.TAG)
@@ -104,21 +111,6 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
     }
 
     //Listeners
-    private fun onQueryTextListener(): SearchView.OnQueryTextListener {
-        return object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isNotEmpty()) {
-                    viewModel.submitSearchQuery(query)
-                }
-                return false
-            }
-        }
-    }
-
     private fun onCloseButtonSearchViewListener(searchView: SearchView): View.OnClickListener {
         return View.OnClickListener {
             searchView.setQuery("", false)

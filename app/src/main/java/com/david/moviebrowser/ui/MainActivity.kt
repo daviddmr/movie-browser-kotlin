@@ -16,12 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         val fragment = HomeFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
             .replace(
-                R.id.activity_main_container,
+                R.id.content_frame,
                 fragment,
                 HomeFragment.TAG
             )
