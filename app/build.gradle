@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 def apiKeyPropertiesFile = rootProject.file("apikey.properties")
@@ -54,10 +55,11 @@ android {
     namespace 'com.david.moviebrowser'
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation libs.kotlin.stdlib.jdk7
+kapt {
+    correctErrorTypes true
+}
 
+dependencies {
     // Android support library
     implementation libs.appcompat
     implementation libs.recyclerview
@@ -86,12 +88,9 @@ dependencies {
     // Glide - Image loading framework
     implementation libs.glide
 
-    // Dagger 2
-    implementation libs.dagger
-    implementation libs.dagger.android
-    implementation libs.dagger.android.support
-    kapt libs.dagger.compiler
-    kapt libs.dagger.android.processor
+    // Hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     // Dependencies for local unit tests
     testImplementation libs.junit

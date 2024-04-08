@@ -1,13 +1,15 @@
 package com.david.moviebrowser.ui.movieDetail
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.david.moviebrowser.R
 import com.david.moviebrowser.databinding.MovieDetailActivityBinding
 import com.david.moviebrowser.model.Movie
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MovieDetailActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class MovieDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: MovieDetailActivityBinding
     lateinit var movie: Movie

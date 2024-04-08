@@ -1,11 +1,11 @@
 package com.david.moviebrowser
 
+import android.app.Application
 import android.content.res.Resources
-import com.david.moviebrowser.injection.component.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 
-class App : DaggerApplication() {
+@HiltAndroidApp
+class App : Application() {
 
     companion object {
         lateinit var res: Resources
@@ -15,9 +15,4 @@ class App : DaggerApplication() {
         super.onCreate()
         res = this.resources
     }
-
-    override fun applicationInjector(): AndroidInjector<out App> {
-        return DaggerAppComponent.builder().create(this)
-    }
-
 }
