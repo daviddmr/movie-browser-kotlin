@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.david.moviebrowser.databinding.FragmentMovieDetailBinding
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.ui.BaseFragment
@@ -48,11 +49,13 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     private fun setupActionbar() {
-//        (activity as AppCompatActivity).apply {
-//            setSupportActionBar(binding.toolbar)
-//            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//            supportActionBar?.setDisplayShowHomeEnabled(true)
-//            binding.toolbar.setNavigationOnClickListener { fragmentManager.popBackStack() }
-//        }
+        (activity as? AppCompatActivity)?.let { activity ->
+            activity.setSupportActionBar(binding.toolbar)
+            activity.supportActionBar?.let { actionBar ->
+                actionBar.setDisplayHomeAsUpEnabled(true)
+                actionBar.setDisplayShowHomeEnabled(true)
+                binding.toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
+            }
+        }
     }
 }
