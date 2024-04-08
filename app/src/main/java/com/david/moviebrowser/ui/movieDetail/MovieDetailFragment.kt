@@ -4,14 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.david.moviebrowser.R
-import com.david.moviebrowser.databinding.MovieDetailActivityBinding
+import com.david.moviebrowser.databinding.FragmentMovieDetailBinding
 import com.david.moviebrowser.model.Movie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailFragment : AppCompatActivity() {
 
-    private lateinit var binding: MovieDetailActivityBinding
+    private lateinit var binding: FragmentMovieDetailBinding
     lateinit var movie: Movie
 
     companion object {
@@ -20,7 +20,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.movie_detail_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.fragment_movie_detail)
 
         intent.getParcelableExtra<Movie>(ARG_MOVIE)?.let {
             movie = it

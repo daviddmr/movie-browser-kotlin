@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.david.moviebrowser.R
 import com.david.moviebrowser.databinding.FragmentHomeBinding
 import com.david.moviebrowser.model.Movie
-import com.david.moviebrowser.ui.movieDetail.MovieDetailActivity
+import com.david.moviebrowser.ui.movieDetail.MovieDetailFragment
 import com.david.moviebrowser.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,8 +71,8 @@ class HomeFragment : AppCompatActivity() {
     }
 
     private fun openMovieDetailAct(movie: Movie) {
-        val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra(MovieDetailActivity.ARG_MOVIE, movie)
+        val intent = Intent(this, MovieDetailFragment::class.java)
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE, movie)
         startActivity(intent)
     }
 

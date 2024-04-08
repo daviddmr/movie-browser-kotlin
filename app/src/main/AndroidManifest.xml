@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name="com.david.moviebrowser.ui.movieDetail.MovieDetailActivity"
+            android:name="com.david.moviebrowser.ui.movieDetail.MovieDetailFragment"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
