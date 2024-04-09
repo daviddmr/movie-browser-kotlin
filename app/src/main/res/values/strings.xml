@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Movie Browser</string>
-    <string name="movie_and_genres">%s - %s</string>
+    <string name="app_name" translatable="false">Movie Browser</string>
+    <string name="movie_and_genres" translatable="false">%s - %s</string>
 
     <string name="default_language">en-US</string>
     <string name="default_region">US</string>
+
+    <!--Home Screen-->
+    <string name="home_title" translatable="false">Home</string>
 
     <!--Movie Detail Screen-->
     <string name="original_title">Original title:</string>

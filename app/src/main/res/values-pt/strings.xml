@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name">Movie Browser</string>
-    <string name="movie_and_genres">%s - %s</string>
-
     <string name="default_language">pt-BR</string>
     <string name="default_region">BR</string>
 
