@@ -11,25 +11,21 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.david.moviebrowser.R
 import com.david.moviebrowser.databinding.FragmentHomeBinding
 import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.ui.BaseFragment
-import com.david.moviebrowser.ui.movieDetail.MovieDetailFragment
 import com.david.moviebrowser.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
-
-    companion object {
-        const val TAG = "HomeFragment"
-        fun newInstance() = HomeFragment()
-    }
+class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener,
+    MenuItem.OnActionExpandListener {
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -72,7 +68,7 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
         }
 
         viewModel.openMovieDetailActEvent.observeEvent(this) { movie ->
-            openMovieDetailAct(movie)
+            navigateToMovieDetails(movie)
         }
     }
 
@@ -97,17 +93,10 @@ class HomeFragment : BaseFragment(), SearchView.OnQueryTextListener, MenuItem.On
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun openMovieDetailAct(movie: Movie) {
-        val fragment = MovieDetailFragment.newInstance(movie)
-
-        parentFragmentManager
-            .beginTransaction()
-            .replace(
-                R.id.content_frame,
-                fragment,
-            )
-            .addToBackStack(MovieDetailFragment.TAG)
-            .commit()
+    private fun navigateToMovieDetails(movie: Movie) {
+        findNavController().navigate(
+            HomeFragmentDirections.goToMovieDetails(movie)
+        )
     }
 
     //Listeners
