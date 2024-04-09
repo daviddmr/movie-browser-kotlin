@@ -5,29 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import com.david.moviebrowser.databinding.FragmentMovieDetailBinding
-import com.david.moviebrowser.model.Movie
 import com.david.moviebrowser.ui.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieDetailFragment : BaseFragment() {
 
+    private val args: MovieDetailFragmentArgs by navArgs()
+
     private lateinit var binding: FragmentMovieDetailBinding
-    lateinit var movie: Movie
-
-    companion object {
-        const val TAG = "MovieDetailFragment"
-        const val ARG_MOVIE = "arg_movie"
-
-        fun newInstance(movie: Movie): MovieDetailFragment {
-            return MovieDetailFragment().apply {
-                val bundle = Bundle()
-                bundle.putParcelable(ARG_MOVIE, movie)
-                arguments = bundle
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,10 +28,8 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (arguments?.getParcelable(ARG_MOVIE) as? Movie)?.let {
-            movie = it
-            binding.movie = movie
-        }
+
+        binding.movie = args.movie
 
         setupActionbar()
     }
