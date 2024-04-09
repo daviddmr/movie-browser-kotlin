@@ -27,13 +27,13 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject
 constructor(
-        private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository
 ) : ViewModel(), MovieAdapterOnItemClickListener {
 
     //Binds for view components
     val moviesBinding: ItemBinding<Movie> = ItemBinding
-            .of<Movie>(BR.movie, R.layout.movie_item)
-            .bindExtra(BR.listener, this)
+        .of<Movie>(BR.movie, R.layout.movie_item)
+        .bindExtra(BR.listener, this)
 
     val topRatedMovies: ObservableList<Movie> = ObservableArrayList()
     val queriedMovies: ObservableList<Movie> = ObservableArrayList()
@@ -77,8 +77,11 @@ constructor(
                     Cache.cacheGenres(result.data.genres)
                     findTopRatedMovies(1)
                 }
+
                 is Result.Error -> {
-                    _message.value = Event(App.res.getString(R.string.get_genre_error))
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _message.value = Event(App.res.getString(R.string.get_genre_error))
+                    }
                 }
             }
             loadingMovies.set(false)
@@ -100,8 +103,12 @@ constructor(
                         upcomingMovies.addAll(Cache.filterMoviesWithGenres(result.data))
                     }
                 }
+
                 is Result.Error -> {
-                    _message.value = Event(App.res.getString(R.string.get_upcoming_movies_error))
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _message.value =
+                            Event(App.res.getString(R.string.get_upcoming_movies_error))
+                    }
                 }
             }
             loadingMovies.set(false)
@@ -123,8 +130,12 @@ constructor(
                         topRatedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
                     }
                 }
+
                 is Result.Error -> {
-                    _message.value = Event(App.res.getString(R.string.get_top_rated_movies_error))
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _message.value =
+                            Event(App.res.getString(R.string.get_top_rated_movies_error))
+                    }
                 }
             }
             loadingMovies.set(false)
@@ -147,8 +158,12 @@ constructor(
                             queriedMovies.addAll(Cache.filterMoviesWithGenres(result.data))
                         }
                     }
+
                     is Result.Error -> {
-                        _message.value = Event(App.res.getString(R.string.get_queried_movies_error))
+                        viewModelScope.launch(Dispatchers.Main) {
+                            _message.value =
+                                Event(App.res.getString(R.string.get_queried_movies_error))
+                        }
                     }
                 }
                 loadingMovies.set(false)
@@ -164,14 +179,16 @@ constructor(
 
     fun checkIfListItIsOverAndFindTopRatedMovies(mLinearLayoutManager: LinearLayoutManager) {
         if (topRatedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
-                && !isLastPageOfTopRatedMovies.get() && !loadingMovies.get()) {
+            && !isLastPageOfTopRatedMovies.get() && !loadingMovies.get()
+        ) {
             findTopRatedMovies(currentPageTopRatedMovies)
         }
     }
 
     fun checkIfListItIsOverAndFindQueriedMovies(mLinearLayoutManager: LinearLayoutManager) {
         if (queriedMovies.size == mLinearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
-                && !isLastPageOfQueriedMovies.get() && !loadingMovies.get()) {
+            && !isLastPageOfQueriedMovies.get() && !loadingMovies.get()
+        ) {
             findMoviesByText(currentPageQueriedMovies)
         }
     }
