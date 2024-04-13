@@ -41,7 +41,8 @@
                 android:adjustViewBounds="true"
                 android:importantForAccessibility="no"
                 android:scaleType="fitCenter"
-                app:image_url="@{movie.getPosterUrl()}" />
+                app:image_url="@{movie.getPosterUrl()}"
+                tools:src="@drawable/ic_image_placeholder" />
 
             <TextView
                 android:id="@+id/titleTextView"
@@ -52,9 +53,10 @@
                 android:layout_toEndOf="@id/posterImageView"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:text="@{movie.title}"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="@{movie.title}" />
+                tools:text="Movie title" />
 
             <TextView
                 android:id="@+id/genresTextView"
@@ -65,8 +67,9 @@
                 android:layout_toEndOf="@id/posterImageView"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:text="@{movie.genresNameFormatted}"
                 android:textSize="14sp"
-                tools:text="@{movie.genresNameFormatted}" />
+                tools:text="Action, Drama" />
 
             <TextView
                 android:id="@+id/releaseDateTextView"
@@ -76,9 +79,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_toEndOf="@id/posterImageView"
+                android:text="@{movie.releaseDate}"
                 android:textSize="12sp"
                 android:textStyle="italic"
-                tools:text="@{movie.releaseDate}" />
+                tools:text="01-01-2024" />
 
         </RelativeLayout>
 

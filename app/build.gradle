@@ -4,6 +4,23 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+
+    /**
+     * In order to use Bundles on screen transitions
+     * e.g
+     * findNavController().navigate(
+           R.id.movie_details_dest,
+           MovieDetailFragmentArgs
+               .Builder(
+                   movie
+               )
+               .build()
+               .toBundle(),
+       )
+     * use "id 'androidx.navigation.safeargs'"
+     *
+     * */
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 def apiKeyPropertiesFile = rootProject.file("apikey.properties")
@@ -91,6 +108,10 @@ dependencies {
     // Hilt
     implementation libs.hilt.android
     kapt libs.hilt.compiler
+
+    // Jetpack Navigation
+    implementation libs.navigation.fragment.ktx
+    implementation libs.navigation.ui.ktx
 
     // Dependencies for local unit tests
     testImplementation libs.junit
